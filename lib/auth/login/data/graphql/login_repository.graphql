@@ -1,0 +1,18 @@
+
+
+mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    status
+    message
+    data {
+      email
+      userId
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      access_token
+      refresh_token
+    }
+  }
+}
