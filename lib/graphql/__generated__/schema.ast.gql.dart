@@ -216,6 +216,58 @@ const LoginResponse = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const Author = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'Author'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'firstName'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'lastName'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'authorId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'authorImage'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'email'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
 const BookModel = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'BookModel'),
   directives: [],
@@ -232,15 +284,6 @@ const BookModel = _i1.ObjectTypeDefinitionNode(
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'bookName'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'authorId'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
@@ -308,6 +351,15 @@ const BookModel = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'DateTime'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'author'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Author'),
         isNonNull: true,
       ),
     ),
@@ -473,6 +525,44 @@ const Query = _i1.ObjectTypeDefinitionNode(
         isNonNull: true,
       ),
     ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'searchBook'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'searchBook'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'GetAllSearchBookInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookListResponse'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'filterBook'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'filterBook'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'GetAllFilterBookInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookListResponse'),
+        isNonNull: true,
+      ),
+    ),
   ],
 );
 const GetAllBookInput = _i1.InputObjectTypeDefinitionNode(
@@ -496,6 +586,78 @@ const GetAllBookInput = _i1.InputObjectTypeDefinitionNode(
         isNonNull: true,
       ),
       defaultValue: _i1.IntValueNode(value: '10'),
+    ),
+  ],
+);
+const GetAllSearchBookInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'GetAllSearchBookInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'page'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+      defaultValue: _i1.IntValueNode(value: '1'),
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'limit'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+      defaultValue: _i1.IntValueNode(value: '10'),
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'searchTerm'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: _i1.StringValueNode(
+        value: '',
+        isBlock: false,
+      ),
+    ),
+  ],
+);
+const GetAllFilterBookInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'GetAllFilterBookInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'page'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+      defaultValue: _i1.IntValueNode(value: '1'),
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'limit'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+      defaultValue: _i1.IntValueNode(value: '10'),
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'genre'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: _i1.StringValueNode(
+        value: '',
+        isBlock: false,
+      ),
     ),
   ],
 );
@@ -722,15 +884,6 @@ const UpdateUserInput = _i1.InputObjectTypeDefinitionNode(
       defaultValue: null,
     ),
     _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'email'),
-      directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
-        isNonNull: false,
-      ),
-      defaultValue: null,
-    ),
-    _i1.InputValueDefinitionNode(
       name: _i1.NameNode(value: 'image'),
       directives: [],
       type: _i1.NamedTypeNode(
@@ -898,11 +1051,14 @@ const document = _i1.DocumentNode(definitions: [
   CreateUserResponse,
   LoginData,
   LoginResponse,
+  Author,
   BookModel,
   BookResponse,
   BookListResponse,
   Query,
   GetAllBookInput,
+  GetAllSearchBookInput,
+  GetAllFilterBookInput,
   Mutation,
   CreateUserInput,
   UpdateUserInput,

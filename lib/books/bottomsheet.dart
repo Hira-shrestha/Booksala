@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:library_store/books/genre.dart';
+import 'package:library_store/core/enums/genre.dart';
 
 void showOptionsBottomSheet(BuildContext context, Function(Genre) onSelect) {
   showModalBottomSheet(

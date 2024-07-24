@@ -6,7 +6,7 @@ import 'package:library_store/auth/signup/data/repository/authrepo.dart';
 import 'package:library_store/auth/login/presentation/page/login_screen.dart';
 import 'package:library_store/auth/signup/presentation/page/signup_screen.dart';
 import 'package:library_store/auth/terms_of_use_widget.dart';
-import 'package:library_store/books/book_list.dart';
+import 'package:library_store/books/presentation/pages/book_list.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -18,8 +18,7 @@ class LandingScreen extends StatelessWidget {
   void switchScreen(LoginTypes types, BuildContext context) {
     switch (types) {
       case LoginTypes.email:
-        Navigator.push(
-            context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const SignupScreen()));
       case LoginTypes.login:
         Navigator.push(context,
@@ -27,7 +26,12 @@ class LandingScreen extends StatelessWidget {
 
       case LoginTypes.bookListing:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) =>  Scaffold(appBar: AppBar(),body: const BookListingScreen(),) ));
+            context,
+            MaterialPageRoute(
+                builder: (context) => Scaffold(
+                      appBar: AppBar(),
+                      body: const BookListingScreen(),
+                    )));
     }
   }
 

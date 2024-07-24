@@ -1,0 +1,24 @@
+mutation RemoveBook($removeBookId: String!) {
+  removeBook(id: $removeBookId) {
+    status
+    message
+    data {
+      bookId
+      bookName
+      publishedDate
+      description
+      price
+      genre
+      image
+      createdAt
+      updatedAt
+      author {
+        firstName
+        lastName
+        authorId
+        authorImage
+        email
+      }
+    }
+  }
+}

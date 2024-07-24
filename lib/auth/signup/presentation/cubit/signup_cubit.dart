@@ -30,7 +30,6 @@ class SignupCubit extends Cubit<SignupState> {
 
   void onSubmit() async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-   await Future.delayed(Duration(seconds: 5));
     final User user = User(firstName: state.firstName ?? "", lastName: state.lastName ?? "", email: state.email);
     repo.createUser(user, state.password).then((value) {
       emit(state.copyWith(status: FormzSubmissionStatus.success));

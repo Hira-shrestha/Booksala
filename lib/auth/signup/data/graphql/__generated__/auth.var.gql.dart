@@ -34,27 +34,6 @@ abstract class GCreateUserVars
       );
 }
 
-abstract class GBooksVars implements Built<GBooksVars, GBooksVarsBuilder> {
-  GBooksVars._();
-
-  factory GBooksVars([void Function(GBooksVarsBuilder b) updates]) =
-      _$GBooksVars;
-
-  _i1.GGetAllBookInput get getAllBookInput;
-  static Serializer<GBooksVars> get serializer => _$gBooksVarsSerializer;
-
-  Map<String, dynamic> toJson() => (_i2.serializers.serializeWith(
-        GBooksVars.serializer,
-        this,
-      ) as Map<String, dynamic>);
-
-  static GBooksVars? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(
-        GBooksVars.serializer,
-        json,
-      );
-}
-
 abstract class GUploadImageVars
     implements Built<GUploadImageVars, GUploadImageVarsBuilder> {
   GUploadImageVars._();

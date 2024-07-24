@@ -1,0 +1,26 @@
+query SearchBook($searchBook: GetAllSearchBookInput!) {
+  searchBook(searchBook: $searchBook) {
+    status
+    message
+    page
+    total
+    data {
+      bookId
+      bookName
+      publishedDate
+      description
+      price
+      genre
+      image
+      createdAt
+      updatedAt
+      author {
+        firstName
+        lastName
+        authorId
+        authorImage
+        email
+      }
+    }
+  }
+}

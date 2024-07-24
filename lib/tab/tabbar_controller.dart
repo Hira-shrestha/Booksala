@@ -1,7 +1,6 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:library_store/books/book_list.dart';
+import 'package:library_store/books/presentation/pages/book_list.dart';
+import 'package:library_store/mybooks/presentation/pages/my_books.dart';
 import 'package:library_store/tab/settings/settings_screen.dart';
 
 class TabBarController extends StatelessWidget {
@@ -10,17 +9,16 @@ class TabBarController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Tabs'),
-          ),
-            bottomNavigationBar: menu(),
+          bottomNavigationBar: menu(),
           body: const TabBarView(
             children: [
               BookListingScreen(),
-              Icon(Icons.directions_transit),
+              // Icon(Icons.directions_transit),
+              MyBooksScreen(),
               SettingsScreen(),
             ],
           ),

@@ -1,0 +1,24 @@
+mutation UpdateBook($updateBookDto: UpdateBookInput!) {
+  updateBook(updateBookDto: $updateBookDto) {
+    status
+    message
+    data {
+      bookId
+      bookName
+      publishedDate
+      description
+      price
+      genre
+      image
+      createdAt
+      updatedAt
+      author {
+        firstName
+        lastName
+        authorId
+        authorImage
+        email
+      }
+    }
+  }
+}

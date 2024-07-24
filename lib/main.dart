@@ -1,12 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:library_store/auth/landing_screen.dart';
+import 'package:get_it/get_it.dart';
+import 'package:library_store/books/presentation/pages/book_list.dart';
+import 'package:library_store/graphql/client.dart';
+import 'package:library_store/mybooks/presentation/cubit/my_books_cubit.dart';
+import 'package:library_store/tab/tabbar_controller.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  GetIt getIt = GetIt.I;
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  final tokenBox = await Hive.openBox('tokenBox');
+  final isLoggedIn = await Hive.openBox("isLoggedIn");
+  getIt.registerSingleton<Box>(tokenBox, instanceName: 'tokenBox');
+  getIt.registerSingleton<Box>(isLoggedIn, instanceName: 'isLoggedIn');
+  final networkClient = NetworkClient();
+  networkClient.setup();
+  getIt.registerSingleton<NetworkClient>(networkClient);
+
+  // runApp(MyApp(networkClient: networkClient));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<MyBooksCubit>(
+          create: (context) => MyBooksCubit(),
+        ),
+      ],
+      child: MyApp(networkClient: networkClient),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final NetworkClient networkClient;
+
+  const MyApp({super.key, required this.networkClient});
+
+  bool getLoginStatus() {
+    Box isLoggedIn = GetIt.I<Box>(instanceName: "isLoggedIn");
+    bool? loginStatus = isLoggedIn.get("isLoggedIn");
+    return loginStatus ?? false;
+  }
 
   // This widget is the root of your application.
   @override
@@ -33,7 +70,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LandingScreen(),
+      home: (getLoginStatus() != true)
+          ? const LandingScreen()
+          : const TabBarController(),
     );
   }
 }

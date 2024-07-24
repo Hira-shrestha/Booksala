@@ -3,7 +3,6 @@ import 'package:formz/formz.dart';
 import 'package:library_store/auth/login/data/repository/login_repo.dart';
 import 'package:library_store/auth/login/presentation/cubit/newlogin_state.dart';
 
-
 class NewLoginCubit extends Cubit<NewLoginState> {
   NewLoginCubit() : super(NewLoginState());
 
@@ -23,9 +22,11 @@ class NewLoginCubit extends Cubit<NewLoginState> {
 
   void onLogin() async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    await Future.delayed(Duration(seconds: 5));
-    repo.login(state.email ?? 'myemail@gmail.com', state.password ?? 'Ebpearls@123').then((value) {
-      if (value == null) {
+    repo
+        .login(state.email ?? 'myemail@gmail.com',
+            state.password ?? 'Ebpearls@123')
+        .then((value) {
+      if (value == "") {
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } else {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));

@@ -8,6 +8,10 @@ part of 'schema.schema.gql.dart';
 
 Serializer<GGetAllBookInput> _$gGetAllBookInputSerializer =
     new _$GGetAllBookInputSerializer();
+Serializer<GGetAllSearchBookInput> _$gGetAllSearchBookInputSerializer =
+    new _$GGetAllSearchBookInputSerializer();
+Serializer<GGetAllFilterBookInput> _$gGetAllFilterBookInputSerializer =
+    new _$GGetAllFilterBookInputSerializer();
 Serializer<GCreateUserInput> _$gCreateUserInputSerializer =
     new _$GCreateUserInputSerializer();
 Serializer<GUpdateUserInput> _$gUpdateUserInputSerializer =
@@ -56,6 +60,122 @@ class _$GGetAllBookInputSerializer
         case 'limit':
           result.limit = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GGetAllSearchBookInputSerializer
+    implements StructuredSerializer<GGetAllSearchBookInput> {
+  @override
+  final Iterable<Type> types = const [
+    GGetAllSearchBookInput,
+    _$GGetAllSearchBookInput
+  ];
+  @override
+  final String wireName = 'GGetAllSearchBookInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GGetAllSearchBookInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'page',
+      serializers.serialize(object.page, specifiedType: const FullType(int)),
+      'limit',
+      serializers.serialize(object.limit, specifiedType: const FullType(int)),
+      'searchTerm',
+      serializers.serialize(object.searchTerm,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GGetAllSearchBookInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GGetAllSearchBookInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'page':
+          result.page = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'limit':
+          result.limit = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'searchTerm':
+          result.searchTerm = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GGetAllFilterBookInputSerializer
+    implements StructuredSerializer<GGetAllFilterBookInput> {
+  @override
+  final Iterable<Type> types = const [
+    GGetAllFilterBookInput,
+    _$GGetAllFilterBookInput
+  ];
+  @override
+  final String wireName = 'GGetAllFilterBookInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GGetAllFilterBookInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'page',
+      serializers.serialize(object.page, specifiedType: const FullType(int)),
+      'limit',
+      serializers.serialize(object.limit, specifiedType: const FullType(int)),
+      'genre',
+      serializers.serialize(object.genre,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GGetAllFilterBookInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GGetAllFilterBookInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'page':
+          result.page = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'limit':
+          result.limit = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'genre':
+          result.genre = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -163,13 +283,6 @@ class _$GUpdateUserInputSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.email;
-    if (value != null) {
-      result
-        ..add('email')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.image;
     if (value != null) {
       result
@@ -205,10 +318,6 @@ class _$GUpdateUserInputSerializer
           break;
         case 'lastName':
           result.lastName = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'email':
-          result.email = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'image':
@@ -414,87 +523,6 @@ class _$GUpdateBookInputSerializer
   }
 }
 
-class _$GDateTime extends GDateTime {
-  @override
-  final String value;
-
-  factory _$GDateTime([void Function(GDateTimeBuilder)? updates]) =>
-      (new GDateTimeBuilder()..update(updates))._build();
-
-  _$GDateTime._({required this.value}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(value, r'GDateTime', 'value');
-  }
-
-  @override
-  GDateTime rebuild(void Function(GDateTimeBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  GDateTimeBuilder toBuilder() => new GDateTimeBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is GDateTime && value == other.value;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, value.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'GDateTime')..add('value', value))
-        .toString();
-  }
-}
-
-class GDateTimeBuilder implements Builder<GDateTime, GDateTimeBuilder> {
-  _$GDateTime? _$v;
-
-  String? _value;
-  String? get value => _$this._value;
-  set value(String? value) => _$this._value = value;
-
-  GDateTimeBuilder();
-
-  GDateTimeBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _value = $v.value;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(GDateTime other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GDateTime;
-  }
-
-  @override
-  void update(void Function(GDateTimeBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  GDateTime build() => _build();
-
-  _$GDateTime _build() {
-    final _$result = _$v ??
-        new _$GDateTime._(
-            value: BuiltValueNullFieldError.checkNotNull(
-                value, r'GDateTime', 'value'));
-    replace(_$result);
-    return _$result;
-  }
-}
-
 class _$GGetAllBookInput extends GGetAllBookInput {
   @override
   final int page;
@@ -589,6 +617,242 @@ class GGetAllBookInputBuilder
                 page, r'GGetAllBookInput', 'page'),
             limit: BuiltValueNullFieldError.checkNotNull(
                 limit, r'GGetAllBookInput', 'limit'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GGetAllSearchBookInput extends GGetAllSearchBookInput {
+  @override
+  final int page;
+  @override
+  final int limit;
+  @override
+  final String searchTerm;
+
+  factory _$GGetAllSearchBookInput(
+          [void Function(GGetAllSearchBookInputBuilder)? updates]) =>
+      (new GGetAllSearchBookInputBuilder()..update(updates))._build();
+
+  _$GGetAllSearchBookInput._(
+      {required this.page, required this.limit, required this.searchTerm})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        page, r'GGetAllSearchBookInput', 'page');
+    BuiltValueNullFieldError.checkNotNull(
+        limit, r'GGetAllSearchBookInput', 'limit');
+    BuiltValueNullFieldError.checkNotNull(
+        searchTerm, r'GGetAllSearchBookInput', 'searchTerm');
+  }
+
+  @override
+  GGetAllSearchBookInput rebuild(
+          void Function(GGetAllSearchBookInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GGetAllSearchBookInputBuilder toBuilder() =>
+      new GGetAllSearchBookInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GGetAllSearchBookInput &&
+        page == other.page &&
+        limit == other.limit &&
+        searchTerm == other.searchTerm;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, page.hashCode);
+    _$hash = $jc(_$hash, limit.hashCode);
+    _$hash = $jc(_$hash, searchTerm.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GGetAllSearchBookInput')
+          ..add('page', page)
+          ..add('limit', limit)
+          ..add('searchTerm', searchTerm))
+        .toString();
+  }
+}
+
+class GGetAllSearchBookInputBuilder
+    implements Builder<GGetAllSearchBookInput, GGetAllSearchBookInputBuilder> {
+  _$GGetAllSearchBookInput? _$v;
+
+  int? _page;
+  int? get page => _$this._page;
+  set page(int? page) => _$this._page = page;
+
+  int? _limit;
+  int? get limit => _$this._limit;
+  set limit(int? limit) => _$this._limit = limit;
+
+  String? _searchTerm;
+  String? get searchTerm => _$this._searchTerm;
+  set searchTerm(String? searchTerm) => _$this._searchTerm = searchTerm;
+
+  GGetAllSearchBookInputBuilder();
+
+  GGetAllSearchBookInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _page = $v.page;
+      _limit = $v.limit;
+      _searchTerm = $v.searchTerm;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GGetAllSearchBookInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GGetAllSearchBookInput;
+  }
+
+  @override
+  void update(void Function(GGetAllSearchBookInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GGetAllSearchBookInput build() => _build();
+
+  _$GGetAllSearchBookInput _build() {
+    final _$result = _$v ??
+        new _$GGetAllSearchBookInput._(
+            page: BuiltValueNullFieldError.checkNotNull(
+                page, r'GGetAllSearchBookInput', 'page'),
+            limit: BuiltValueNullFieldError.checkNotNull(
+                limit, r'GGetAllSearchBookInput', 'limit'),
+            searchTerm: BuiltValueNullFieldError.checkNotNull(
+                searchTerm, r'GGetAllSearchBookInput', 'searchTerm'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GGetAllFilterBookInput extends GGetAllFilterBookInput {
+  @override
+  final int page;
+  @override
+  final int limit;
+  @override
+  final String genre;
+
+  factory _$GGetAllFilterBookInput(
+          [void Function(GGetAllFilterBookInputBuilder)? updates]) =>
+      (new GGetAllFilterBookInputBuilder()..update(updates))._build();
+
+  _$GGetAllFilterBookInput._(
+      {required this.page, required this.limit, required this.genre})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        page, r'GGetAllFilterBookInput', 'page');
+    BuiltValueNullFieldError.checkNotNull(
+        limit, r'GGetAllFilterBookInput', 'limit');
+    BuiltValueNullFieldError.checkNotNull(
+        genre, r'GGetAllFilterBookInput', 'genre');
+  }
+
+  @override
+  GGetAllFilterBookInput rebuild(
+          void Function(GGetAllFilterBookInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GGetAllFilterBookInputBuilder toBuilder() =>
+      new GGetAllFilterBookInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GGetAllFilterBookInput &&
+        page == other.page &&
+        limit == other.limit &&
+        genre == other.genre;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, page.hashCode);
+    _$hash = $jc(_$hash, limit.hashCode);
+    _$hash = $jc(_$hash, genre.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GGetAllFilterBookInput')
+          ..add('page', page)
+          ..add('limit', limit)
+          ..add('genre', genre))
+        .toString();
+  }
+}
+
+class GGetAllFilterBookInputBuilder
+    implements Builder<GGetAllFilterBookInput, GGetAllFilterBookInputBuilder> {
+  _$GGetAllFilterBookInput? _$v;
+
+  int? _page;
+  int? get page => _$this._page;
+  set page(int? page) => _$this._page = page;
+
+  int? _limit;
+  int? get limit => _$this._limit;
+  set limit(int? limit) => _$this._limit = limit;
+
+  String? _genre;
+  String? get genre => _$this._genre;
+  set genre(String? genre) => _$this._genre = genre;
+
+  GGetAllFilterBookInputBuilder();
+
+  GGetAllFilterBookInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _page = $v.page;
+      _limit = $v.limit;
+      _genre = $v.genre;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GGetAllFilterBookInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GGetAllFilterBookInput;
+  }
+
+  @override
+  void update(void Function(GGetAllFilterBookInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GGetAllFilterBookInput build() => _build();
+
+  _$GGetAllFilterBookInput _build() {
+    final _$result = _$v ??
+        new _$GGetAllFilterBookInput._(
+            page: BuiltValueNullFieldError.checkNotNull(
+                page, r'GGetAllFilterBookInput', 'page'),
+            limit: BuiltValueNullFieldError.checkNotNull(
+                limit, r'GGetAllFilterBookInput', 'limit'),
+            genre: BuiltValueNullFieldError.checkNotNull(
+                genre, r'GGetAllFilterBookInput', 'genre'));
     replace(_$result);
     return _$result;
   }
@@ -747,8 +1011,6 @@ class _$GUpdateUserInput extends GUpdateUserInput {
   @override
   final String? lastName;
   @override
-  final String? email;
-  @override
   final String? image;
   @override
   final String? password;
@@ -762,7 +1024,6 @@ class _$GUpdateUserInput extends GUpdateUserInput {
   _$GUpdateUserInput._(
       {this.firstName,
       this.lastName,
-      this.email,
       this.image,
       this.password,
       required this.id})
@@ -784,7 +1045,6 @@ class _$GUpdateUserInput extends GUpdateUserInput {
     return other is GUpdateUserInput &&
         firstName == other.firstName &&
         lastName == other.lastName &&
-        email == other.email &&
         image == other.image &&
         password == other.password &&
         id == other.id;
@@ -795,7 +1055,6 @@ class _$GUpdateUserInput extends GUpdateUserInput {
     var _$hash = 0;
     _$hash = $jc(_$hash, firstName.hashCode);
     _$hash = $jc(_$hash, lastName.hashCode);
-    _$hash = $jc(_$hash, email.hashCode);
     _$hash = $jc(_$hash, image.hashCode);
     _$hash = $jc(_$hash, password.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
@@ -808,7 +1067,6 @@ class _$GUpdateUserInput extends GUpdateUserInput {
     return (newBuiltValueToStringHelper(r'GUpdateUserInput')
           ..add('firstName', firstName)
           ..add('lastName', lastName)
-          ..add('email', email)
           ..add('image', image)
           ..add('password', password)
           ..add('id', id))
@@ -827,10 +1085,6 @@ class GUpdateUserInputBuilder
   String? _lastName;
   String? get lastName => _$this._lastName;
   set lastName(String? lastName) => _$this._lastName = lastName;
-
-  String? _email;
-  String? get email => _$this._email;
-  set email(String? email) => _$this._email = email;
 
   String? _image;
   String? get image => _$this._image;
@@ -851,7 +1105,6 @@ class GUpdateUserInputBuilder
     if ($v != null) {
       _firstName = $v.firstName;
       _lastName = $v.lastName;
-      _email = $v.email;
       _image = $v.image;
       _password = $v.password;
       _id = $v.id;
@@ -879,7 +1132,6 @@ class GUpdateUserInputBuilder
         new _$GUpdateUserInput._(
             firstName: firstName,
             lastName: lastName,
-            email: email,
             image: image,
             password: password,
             id: BuiltValueNullFieldError.checkNotNull(

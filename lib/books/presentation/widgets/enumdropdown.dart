@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:library_store/books/rangeslider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_store/books/presentation/cubit/book_list_cubit.dart';
+import 'package:library_store/books/presentation/cubit/book_list_state.dart';
+import 'package:library_store/core/common/rangeslider.dart';
 
-import 'genre.dart';
+import '../../../core/enums/genre.dart';
 
 class FilterValue {
   FilterValue(
@@ -14,9 +17,15 @@ class FilterValue {
 }
 
 class EnumDropdown extends StatefulWidget {
-  EnumDropdown({this.updatedGenerlist, this.filterValue, super.key});
-  final Function(FilterValue)? updatedGenerlist;
+  EnumDropdown({
+    // this.updatedGenerlist,
+    this.filterValue,
+    super.key,
+    required this.onApply,
+  });
+  // final Function(FilterValue)? updatedGenerlist;
   FilterValue? filterValue;
+  final Function(List<Genre>) onApply;
 
   @override
   _EnumDropdownState createState() => _EnumDropdownState();
@@ -98,7 +107,16 @@ class _EnumDropdownState extends State<EnumDropdown> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: apply,
+                      onPressed: () {
+                        widget.onApply(generList);
+                        Navigator.pop(context);
+                      },
+                      // () {
+                      //   context
+                      //       .read<BookListCubit>()
+                      //       .filterBooks(generList);
+
+                      // },
                       child: const Text('Apply'),
                     ),
                   ),
@@ -113,10 +131,10 @@ class _EnumDropdownState extends State<EnumDropdown> {
 
   String capitalizeString(String s) => s[0].toUpperCase() + s.substring(1);
 
-  void apply() {
-    FilterValue value = FilterValue(
-        generList: generList, minValue: minValue, maxValue: maxValue);
-    widget.updatedGenerlist?.call(value);
-    Navigator.pop(context);
-  }
+  // void apply() {
+  //   FilterValue value = FilterValue(
+  //       generList: generList, minValue: minValue, maxValue: maxValue);
+  //   widget.updatedGenerlist?.call(value);
+  //   Navigator.pop(context);
+  // }
 }

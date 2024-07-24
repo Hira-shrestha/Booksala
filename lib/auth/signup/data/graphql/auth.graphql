@@ -13,26 +13,6 @@ mutation CreateUser($createUserInput: CreateUserInput!) {
   }
 }
 
-query Books($getAllBookInput: GetAllBookInput!) {
-  books(GetAllBookInput: $getAllBookInput) {
-    status
-    message
-    page
-    total
-    data {
-      bookId
-      bookName
-      publishedDate
-      description
-      price
-      genre
-      image
-      createdAt
-      updatedAt
-    }
-  }
-}
-
 mutation UploadImage($image: Upload!) {
   uploadImage(image: $image)
 }

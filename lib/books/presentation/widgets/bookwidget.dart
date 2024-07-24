@@ -1,39 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:library_store/books/book.dart';
+import 'package:library_store/gen/assets.gen.dart';
 
 class BookWidget extends StatelessWidget {
-  const BookWidget(this.book, this.onDelete, this.onEdit, {super.key});
+  const BookWidget({
+    required this.book,
+    required this.onDelete,
+    required this.onEdit,
+    super.key,
+  });
+
   final VoidCallback onDelete;
   final VoidCallback onEdit;
-
   final Book book;
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(10.0), // Margin around each card
+      margin: const EdgeInsets.all(10.0),
       elevation: 5.0,
       child: Container(
-        //   width: ScreenUtil().screenWidth * 0.9,
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Image.asset(
-              'assets/images/book_cover.jpg',
+              Assets.images.bookCover.path,
               height: 80,
               width: 50,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 16), // Adjusted spacing
             Expanded(child: TopDownTextWidget(book)),
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(Icons.edit, size: 20),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
               onPressed: onEdit,
             ),
             IconButton(
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete, size: 20),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
               onPressed: onDelete,
             ),
           ],
@@ -45,8 +54,9 @@ class BookWidget extends StatelessWidget {
 
 // ignore: must_be_immutable
 class TopDownTextWidget extends StatelessWidget {
-  TopDownTextWidget(this.book, {super.key});
-  Book book;
+  const TopDownTextWidget(this.book, {super.key});
+
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +68,18 @@ class TopDownTextWidget extends StatelessWidget {
           book.bookName,
           style: const TextStyle(
             fontSize: 18.0,
-            fontWeight: FontWeight.bold, // Make the text bold
-            color: Colors.black, // Set the font size here
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         Text(
           book.genre,
           style: const TextStyle(
             fontSize: 16.0,
-            fontWeight: FontWeight.normal, // Make the text bold
-            color: Colors.blue, // Set the font size here
+            fontWeight: FontWeight.normal,
+            color: Colors.blue,
           ),
         ),
         Row(
@@ -76,28 +88,22 @@ class TopDownTextWidget extends StatelessWidget {
               "\$${book.price.toString()}",
               style: const TextStyle(
                 fontSize: 16.0,
-                fontWeight: FontWeight.normal, // Make the text bold
-                color: Colors.blue, // Set the font size here
+                fontWeight: FontWeight.normal,
+                color: Colors.blue,
               ),
             ),
             const SizedBox(width: 8),
-            Container(
-              child: SizedBox(
-                width: 0.29.sw,
-                child: Text(
-                  "Genre: ${book.genre.toString().split(".").last}",
-                  overflow:
-                      TextOverflow.ellipsis, // Truncate text with ellipsis
-                  maxLines: 1,
-                  softWrap: true,
-                  style: const TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal, // Make the text bold
-                    color: Colors.blue, // Set the font size here
-                  ),
+            Expanded(
+              child: Text(
+                "Genre: ${book.genre}",
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.blue,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ],

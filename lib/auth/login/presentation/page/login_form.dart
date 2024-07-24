@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +13,6 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -24,6 +21,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           TextFormField(
+            autocorrect: false,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Enter your email address",
