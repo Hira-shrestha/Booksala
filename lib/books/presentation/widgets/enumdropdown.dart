@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:library_store/books/presentation/cubit/book_list_cubit.dart';
-import 'package:library_store/books/presentation/cubit/book_list_state.dart';
 import 'package:library_store/core/common/rangeslider.dart';
 
 import '../../../core/enums/genre.dart';
@@ -108,7 +105,9 @@ class _EnumDropdownState extends State<EnumDropdown> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        widget.onApply(generList);
+                        if (generList.isNotEmpty) {
+                          widget.onApply(generList);
+                        }
                         Navigator.pop(context);
                       },
                       // () {

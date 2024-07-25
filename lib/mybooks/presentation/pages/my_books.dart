@@ -4,6 +4,7 @@ import 'package:library_store/addbook/presentation/pages/addbook.dart';
 import 'package:library_store/books/book.dart';
 import 'package:library_store/books/presentation/widgets/bookwidget.dart';
 import 'package:library_store/core/common/searchBar.dart';
+import 'package:library_store/core/enums/app_state.dart';
 import 'package:library_store/core/models/book_list_model.dart';
 import 'package:library_store/mybooks/presentation/cubit/my_books_cubit.dart';
 import 'package:library_store/mybooks/presentation/cubit/my_books_state.dart';
@@ -17,10 +18,24 @@ class MyBooksScreen extends StatelessWidget {
       create: (context) => MyBooksCubit(),
       child: BlocListener<MyBooksCubit, MyBooksState>(
         listener: (context, state) {
+          if (state.status == AppState.failure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
+            Future.delayed(const Duration(seconds: 3), () {
+              context.read<MyBooksCubit>().resetState();
+            });
+          }
+
+          if (state.status == AppState.success) {
+            context.read<MyBooksCubit>().resetState();
+          }
           // TODO: implement listener
         },
         listenWhen: (previous, current) =>
-            previous.status != current.status &&
+            previous.status != current.status ||
             previous.books != current.books,
         child: BlocBuilder<MyBooksCubit, MyBooksState>(
           builder: (context, state) {
@@ -37,6 +52,11 @@ class MyBooksScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Searchbar(
+                            onChanged: (searchText) {
+                              context
+                                  .read<MyBooksCubit>()
+                                  .searchBook(searchText);
+                            },
                             showFilterIcon: false,
                           ),
                         ),
@@ -60,6 +80,7 @@ class MyBooksScreen extends StatelessWidget {
                               final currentBookList =
                                   List<Book>.from(state.books?.data ?? []);
                               currentBookList.add(newBook);
+                              currentBookList.reversed;
 
                               final updatedBooks = BookList(
                                 status: 0,
@@ -87,8 +108,20 @@ class MyBooksScreen extends StatelessWidget {
                             itemCount: state.books!.data.length,
                             itemBuilder: (context, index) => BookWidget(
                               book: state.books!.data[index],
-                              onDelete: () {},
-                              onEdit: () {},
+                              onDelete: () {
+                                context.read<MyBooksCubit>().deleteBook(
+                                    state.books!.data[index].bookId);
+                              },
+                              onEdit: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddBook(
+                                            book: state.books!.data[index],
+                                            pageTitle: 'Update',
+                                          )),
+                                );
+                              },
                             ),
                           ),
                         ),

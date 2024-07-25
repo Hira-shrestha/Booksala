@@ -123,6 +123,9 @@ class _AddBookState extends State<AddBook> {
               // widget.onAddedBook!(state.newbook!);
               Navigator.pop(context, state.newbook!);
             }
+            if (widget.pageTitle == "Update") {
+              Navigator.pop(context);
+            }
           }
         },
         listenWhen: (previous, current) => previous.status != current.status,

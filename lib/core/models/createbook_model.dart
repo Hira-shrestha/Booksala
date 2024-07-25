@@ -1,5 +1,3 @@
-import 'dart:async';
-
 class CreateBook {
   String bookName;
   String publishedDate;

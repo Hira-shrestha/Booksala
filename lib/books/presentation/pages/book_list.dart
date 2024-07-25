@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:library_store/auth/authentication/auth_state.dart';
 import 'package:library_store/core/enums/genre.dart';
 import 'package:library_store/addbook/presentation/pages/addbook.dart';
 import 'package:library_store/books/book.dart';
@@ -12,7 +13,6 @@ import 'package:library_store/books/presentation/cubit/book_list_cubit.dart';
 import 'package:library_store/books/presentation/cubit/book_list_state.dart';
 import 'package:library_store/core/common/searchBar.dart';
 import 'package:library_store/core/enums/app_state.dart';
-import 'package:library_store/core/models/createbook_model.dart';
 
 enum ListState { all, search, filter }
 
@@ -30,8 +30,6 @@ class _BookListingScreenState extends State<BookListingScreen> {
   ListState state = ListState.all;
   FilterValue filterValue =
       FilterValue(generList: [], minValue: 0, maxValue: 1000);
-
-  late List<Genre> genrelist = [];
 
   @override
   void initState() {
@@ -56,12 +54,26 @@ class _BookListingScreenState extends State<BookListingScreen> {
       child: BlocListener<BookListCubit, BookListState>(
         listener: (context, state) {
           if (state.status == AppState.loading) {}
-          if (state.status == AppState.success) {}
-          if (state.status == AppState.failure) {}
+          if (state.status == AppState.success) {
+            if (state.bookId != '') {
+              context.read<BookListCubit>().deleteRefresh(state.bookId);
+              context.read<BookListCubit>().resetState();
+            }
+          }
+          if (state.status == AppState.failure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(content: Text(state.errorDescription)),
+              );
+            Future.delayed(const Duration(seconds: 3), () {
+              context.read<BookListCubit>().resetState();
+            });
+          }
           // TODO: implement listener
         },
         listenWhen: (previous, current) =>
-            previous.status != current.status &&
+            previous.status != current.status ||
             previous.books != current.books,
         child: BlocBuilder<BookListCubit, BookListState>(
           builder: (context, state) {
@@ -78,41 +90,18 @@ class _BookListingScreenState extends State<BookListingScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 4.0),
-                        child:
-                            //   TextField(
-                            //     controller: searchController,
-                            //     focusNode: searchFocusNode,
-                            //     decoration: InputDecoration(
-                            //       hintText: 'Search Book...',
-                            //       prefixIcon: const Icon(Icons.search),
-                            //       suffixIcon: IconButton(
-                            //         icon: Icon(
-                            //           Icons.filter_list,
-                            //           // ignore: unrelated_type_equality_checks
-                            //           color: state == ListState.filter
-                            //               ? Colors.blue
-                            //               : Colors.grey,
-                            //         ),
-                            //         onPressed: () {
-                            //           // Add your filter action here
-                            //           filterPage(context);
-                            //         },
-                            //       ),
-                            //       border: const OutlineInputBorder(
-                            //         borderRadius:
-                            //             BorderRadius.all(Radius.circular(10.0)),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            Searchbar(
+                        child: Searchbar(
                           onChanged: (val) =>
                               {context.read<BookListCubit>().searchBook(val)},
                           openFilter: () {
                             filterPage(
                               context,
+                              state.genreList.isEmpty ? false : true,
                               (genrelist) {
-                                this.genrelist = genrelist;
+                                // this.genrelist = genrelist;
+                                context
+                                    .read<BookListCubit>()
+                                    .updatedGenerlist(genrelist);
                                 context
                                     .read<BookListCubit>()
                                     .filterBooks(genrelist);
@@ -121,9 +110,12 @@ class _BookListingScreenState extends State<BookListingScreen> {
                           },
                         ),
                       ),
-                      genrelist.isNotEmpty == true
+                      state.genreList.isEmpty != true
                           ? ElevatedButton(
                               onPressed: () {
+                                context
+                                    .read<BookListCubit>()
+                                    .updatedGenerlist([]);
                                 context.read<BookListCubit>().getAllBooksList();
                               },
                               child: Text("Clear filter"))
@@ -159,85 +151,6 @@ class _BookListingScreenState extends State<BookListingScreen> {
                         ),
                       ),
                     ]),
-              // RefreshIndicator(
-              //   onRefresh: _handleRefresh,
-              //   child: FutureBuilder(
-              //     future: context.read<BookListCubit>().getAllBooksList(),
-              //       builder: (context, snapshot) {
-              //       if (!snapshot.hasData) {
-              //         return const Center(child: CircularProgressIndicator());
-              //       }
-              //       final book = snapshot.data!;
-              //       return Column(
-              //         children: [
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Row(
-              //               mainAxisAlignment: MainAxisAlignment.start,
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Expanded(
-              //                   child: TextField(
-              //                     controller: searchController,
-              //                     focusNode: searchFocusNode,
-              //                     decoration: const InputDecoration(
-              //                       hintText: 'Search Book...',
-              //                       prefixIcon: Icon(Icons.search),
-              //                       border: OutlineInputBorder(
-              //                         borderRadius: BorderRadius.all(
-              //                             Radius.circular(10.0)),
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ),
-              //                 IconButton(
-              //                   icon: Icon(
-              //                     Icons.filter_list,
-              //                     color: state == ListState.filter
-              //                         ? Colors.blue
-              //                         : Colors.grey,
-              //                   ),
-              //                   onPressed: () {
-              //                     // Add your filter action here
-              //                     // print('Filter icon pressed');
-              //                     filterPage(context);
-              //                   },
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //           (state == ListState.filter)
-              //               ? ElevatedButton(
-              //                   onPressed: () => clearFilter(),
-              //                   child: const Text('clear filter'),
-              //                 )
-              //               : Container(),
-              //           Expanded(
-              //             child: InkWell(
-              //               onTap: () => {
-              //                 searchFocusNode.unfocus(),
-              //               },
-              //               child: (book.isNotEmpty)
-              //                   ? ListView.builder(
-              //                       itemCount: book.length,
-              //                       itemBuilder: ((context, index) {
-              //                         final newbook = book[index];
-              //                         return ScreenUtilInit(
-              //                           child: BookWidget(
-              //                               newbook,
-              //                               () => DeleteBook(newbook),
-              //                               () => _editItem(newbook, context)),
-              //                         );
-              //                       }),
-              //                     )
-              //                   : const Center(child: Text("No data")),
-              //             ),
-              //           ),
-              //         ],
-              //       );
-              //     },
-              //   ),
-              // ),
             );
           },
         ),
@@ -245,18 +158,24 @@ class _BookListingScreenState extends State<BookListingScreen> {
     );
   }
 
-  void clearFilter() {
-    state = ListState.all;
-    setState(() {});
-  }
+  void filterPage(
+      BuildContext context, bool selectedGenre, Function(List<Genre>) onApply) {
+    FilterValue initialFilterValue = selectedGenre
+        ? filterValue
+        : FilterValue(generList: [], minValue: 0, maxValue: 1000);
 
-  void filterPage(BuildContext context, Function(List<Genre>) onApply) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EnumDropdown(
-          filterValue: filterValue,
-          onApply: onApply,
+          onApply: (genreList) {
+            // Updating the parent state with the new genre list
+            setState(() {
+              filterValue.generList = genreList;
+            });
+            onApply(genreList);
+          },
+          filterValue: initialFilterValue,
         ),
       ),
     );
@@ -271,38 +190,5 @@ class _BookListingScreenState extends State<BookListingScreen> {
                 pageTitle: 'Update',
               )),
     );
-  }
-
-  Future<List<Book>> filterBooks() async {
-    // var query = supabase.from('Book').select();
-    // if (filterValue.generList.isNotEmpty) {
-    //   final orQuery = filterValue.generList
-    //       .map((genre) => 'Genre.eq.${genre.name}')
-    //       .join(',');
-    //   query = query.or(orQuery);
-    // }
-
-    // query = query.gte('Price', filterValue.minValue);
-    // query = query.lt('Price', filterValue.maxValue);
-
-    // final response = await query;
-    // final book = response.map((e) => Book.fromJson(e)).toList();
-    return [];
-  }
-
-  Future<List<Book>> fetchBooks() async {
-    // final response = await supabase.from('Book').select();
-    // final book = response.map((e) => Book.fromJson(e)).toList();
-    // return book;
-    return [];
-  }
-
-  void DeleteBook(Book book) async {}
-
-  Future<void> _handleRefresh() async {
-    // Simulate network fetch or database query
-    await Future.delayed(const Duration(seconds: 2));
-    // Update the list of items and refresh the UI
-    setState(() {});
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:library_store/books/book.dart';
 import 'package:library_store/gen/assets.gen.dart';
 

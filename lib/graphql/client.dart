@@ -32,12 +32,17 @@ class NetworkClient {
         "https://8001-27-34-34-228.ngrok-free.app/graphql",
         defaultHeaders: {
           'Authorization': 'Bearer $accessToken',
-          ...cacheControlHeaders
         },
       );
     }
 
-    client = Client(link: link);
+    client = Client(
+      link: link,
+      defaultFetchPolicies: {
+        OperationType.mutation: FetchPolicy.NetworkOnly,
+        OperationType.query: FetchPolicy.NetworkOnly,
+      },
+    );
   }
 }
 

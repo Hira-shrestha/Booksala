@@ -1,7 +1,4 @@
-import 'dart:collection';
-
 import 'package:get_it/get_it.dart';
-import 'package:library_store/books/book.dart';
 import 'package:library_store/books/data/graphql/delete_books/__generated__/delete_book.req.gql.dart';
 import 'package:library_store/books/data/graphql/filter_books/__generated__/filter_books.req.gql.dart';
 import 'package:library_store/books/data/graphql/search_books/__generated__/search_books.req.gql.dart';
@@ -82,7 +79,7 @@ class BookListRepo {
     }
   }
 
-  Future<double> removeBooks(String bookId) async {
+  Future<String> removeBooks(String bookId) async {
     final mutation = GRemoveBookReq((b) => b..vars.removeBookId = bookId);
 
     try {
@@ -90,8 +87,8 @@ class BookListRepo {
       if (res.hasErrors) {
         throw Exception("graphql Error: ${res.graphqlErrors}");
       }
-      if (res.data?.removeBook.status == 200) {
-        return res.data!.removeBook.status;
+      if (res.data != null) {
+        return res.data!.removeBook.data.bookId;
       } else {
         throw Exception("error or empty data");
       }

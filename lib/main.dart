@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:library_store/auth/landing_screen.dart';
 import 'package:get_it/get_it.dart';
-import 'package:library_store/books/presentation/pages/book_list.dart';
+import 'package:library_store/books/presentation/cubit/book_list_cubit.dart';
 import 'package:library_store/graphql/client.dart';
 import 'package:library_store/mybooks/presentation/cubit/my_books_cubit.dart';
 import 'package:library_store/tab/tabbar_controller.dart';
@@ -27,6 +27,9 @@ void main() async {
       providers: [
         BlocProvider<MyBooksCubit>(
           create: (context) => MyBooksCubit(),
+        ),
+        BlocProvider<BookListCubit>(
+          create: (context) => BookListCubit(),
         ),
       ],
       child: MyApp(networkClient: networkClient),
