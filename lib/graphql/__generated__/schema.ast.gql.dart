@@ -648,16 +648,16 @@ const GetAllFilterBookInput = _i1.InputObjectTypeDefinitionNode(
       defaultValue: _i1.IntValueNode(value: '10'),
     ),
     _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'genre'),
+      name: _i1.NameNode(value: 'genres'),
       directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
+      type: _i1.ListTypeNode(
+        type: _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'String'),
+          isNonNull: true,
+        ),
         isNonNull: true,
       ),
-      defaultValue: _i1.StringValueNode(
-        value: '',
-        isBlock: false,
-      ),
+      defaultValue: _i1.ListValueNode(values: []),
     ),
   ],
 );

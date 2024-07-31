@@ -93,8 +93,9 @@ input GetAllSearchBookInput {
 input GetAllFilterBookInput {
   page: Int! = 1
   limit: Int! = 10
-  genre: String! = ""
+  genres: [String!]! = []
 }
+
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): CreateUserResponse!

@@ -66,7 +66,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateBookInput.serializer)
       ..add(GUpdateBookReq.serializer)
       ..add(GUpdateBookVars.serializer)
+      ..add(GUpdateUserData.serializer)
+      ..add(GUpdateUserData_updateUser.serializer)
+      ..add(GUpdateUserData_updateUser_data.serializer)
       ..add(GUpdateUserInput.serializer)
+      ..add(GUpdateUserReq.serializer)
+      ..add(GUpdateUserVars.serializer)
       ..add(GUpload.serializer)
       ..add(GUploadImageData.serializer)
       ..add(GUploadImageReq.serializer)
@@ -87,7 +92,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GSearchBookData_searchBook_data)]),
-          () => new ListBuilder<GSearchBookData_searchBook_data>()))
+          () => new ListBuilder<GSearchBookData_searchBook_data>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

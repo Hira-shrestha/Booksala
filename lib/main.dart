@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:library_store/auth/landing_screen.dart';
+import 'package:library_store/feature/User/user.dart';
+import 'package:library_store/feature/auth/landing_screen.dart';
 import 'package:get_it/get_it.dart';
-import 'package:library_store/books/presentation/cubit/book_list_cubit.dart';
+import 'package:library_store/feature/books/presentation/cubit/book_list_cubit.dart';
+import 'package:library_store/feature/profile_wrapper/profile/presentation/cubit/profilte_page_cubit.dart';
 import 'package:library_store/graphql/client.dart';
-import 'package:library_store/mybooks/presentation/cubit/my_books_cubit.dart';
-import 'package:library_store/tab/tabbar_controller.dart';
+import 'package:library_store/feature/mybooks/presentation/cubit/my_books_cubit.dart';
+import 'package:library_store/feature/tab/tabbar_controller.dart';
 
 void main() async {
   GetIt getIt = GetIt.I;
 
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+  // Open the box
+  final userBox = await Hive.openBox<User>('userBox');
   final tokenBox = await Hive.openBox('tokenBox');
   final isLoggedIn = await Hive.openBox("isLoggedIn");
   getIt.registerSingleton<Box>(tokenBox, instanceName: 'tokenBox');
   getIt.registerSingleton<Box>(isLoggedIn, instanceName: 'isLoggedIn');
+  getIt.registerSingleton<Box>(userBox);
   final networkClient = NetworkClient();
   networkClient.setup();
   getIt.registerSingleton<NetworkClient>(networkClient);
@@ -31,6 +37,10 @@ void main() async {
         BlocProvider<BookListCubit>(
           create: (context) => BookListCubit(),
         ),
+        BlocProvider<ProfiltePageCubit>(
+          create: (context) => ProfiltePageCubit(),
+          child: Container(),
+        )
       ],
       child: MyApp(networkClient: networkClient),
     ),

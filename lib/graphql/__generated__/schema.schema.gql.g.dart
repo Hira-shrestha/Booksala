@@ -145,9 +145,10 @@ class _$GGetAllFilterBookInputSerializer
       serializers.serialize(object.page, specifiedType: const FullType(int)),
       'limit',
       serializers.serialize(object.limit, specifiedType: const FullType(int)),
-      'genre',
-      serializers.serialize(object.genre,
-          specifiedType: const FullType(String)),
+      'genres',
+      serializers.serialize(object.genres,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
     ];
 
     return result;
@@ -173,9 +174,11 @@ class _$GGetAllFilterBookInputSerializer
           result.limit = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
-        case 'genre':
-          result.genre = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+        case 'genres':
+          result.genres.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -746,21 +749,21 @@ class _$GGetAllFilterBookInput extends GGetAllFilterBookInput {
   @override
   final int limit;
   @override
-  final String genre;
+  final BuiltList<String> genres;
 
   factory _$GGetAllFilterBookInput(
           [void Function(GGetAllFilterBookInputBuilder)? updates]) =>
       (new GGetAllFilterBookInputBuilder()..update(updates))._build();
 
   _$GGetAllFilterBookInput._(
-      {required this.page, required this.limit, required this.genre})
+      {required this.page, required this.limit, required this.genres})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         page, r'GGetAllFilterBookInput', 'page');
     BuiltValueNullFieldError.checkNotNull(
         limit, r'GGetAllFilterBookInput', 'limit');
     BuiltValueNullFieldError.checkNotNull(
-        genre, r'GGetAllFilterBookInput', 'genre');
+        genres, r'GGetAllFilterBookInput', 'genres');
   }
 
   @override
@@ -778,7 +781,7 @@ class _$GGetAllFilterBookInput extends GGetAllFilterBookInput {
     return other is GGetAllFilterBookInput &&
         page == other.page &&
         limit == other.limit &&
-        genre == other.genre;
+        genres == other.genres;
   }
 
   @override
@@ -786,7 +789,7 @@ class _$GGetAllFilterBookInput extends GGetAllFilterBookInput {
     var _$hash = 0;
     _$hash = $jc(_$hash, page.hashCode);
     _$hash = $jc(_$hash, limit.hashCode);
-    _$hash = $jc(_$hash, genre.hashCode);
+    _$hash = $jc(_$hash, genres.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -796,7 +799,7 @@ class _$GGetAllFilterBookInput extends GGetAllFilterBookInput {
     return (newBuiltValueToStringHelper(r'GGetAllFilterBookInput')
           ..add('page', page)
           ..add('limit', limit)
-          ..add('genre', genre))
+          ..add('genres', genres))
         .toString();
   }
 }
@@ -813,9 +816,10 @@ class GGetAllFilterBookInputBuilder
   int? get limit => _$this._limit;
   set limit(int? limit) => _$this._limit = limit;
 
-  String? _genre;
-  String? get genre => _$this._genre;
-  set genre(String? genre) => _$this._genre = genre;
+  ListBuilder<String>? _genres;
+  ListBuilder<String> get genres =>
+      _$this._genres ??= new ListBuilder<String>();
+  set genres(ListBuilder<String>? genres) => _$this._genres = genres;
 
   GGetAllFilterBookInputBuilder();
 
@@ -824,7 +828,7 @@ class GGetAllFilterBookInputBuilder
     if ($v != null) {
       _page = $v.page;
       _limit = $v.limit;
-      _genre = $v.genre;
+      _genres = $v.genres.toBuilder();
       _$v = null;
     }
     return this;
@@ -845,14 +849,26 @@ class GGetAllFilterBookInputBuilder
   GGetAllFilterBookInput build() => _build();
 
   _$GGetAllFilterBookInput _build() {
-    final _$result = _$v ??
-        new _$GGetAllFilterBookInput._(
-            page: BuiltValueNullFieldError.checkNotNull(
-                page, r'GGetAllFilterBookInput', 'page'),
-            limit: BuiltValueNullFieldError.checkNotNull(
-                limit, r'GGetAllFilterBookInput', 'limit'),
-            genre: BuiltValueNullFieldError.checkNotNull(
-                genre, r'GGetAllFilterBookInput', 'genre'));
+    _$GGetAllFilterBookInput _$result;
+    try {
+      _$result = _$v ??
+          new _$GGetAllFilterBookInput._(
+              page: BuiltValueNullFieldError.checkNotNull(
+                  page, r'GGetAllFilterBookInput', 'page'),
+              limit: BuiltValueNullFieldError.checkNotNull(
+                  limit, r'GGetAllFilterBookInput', 'limit'),
+              genres: genres.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'genres';
+        genres.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'GGetAllFilterBookInput', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -1,0 +1,1 @@
+enum ScreenType { allBooks, myBooks }

@@ -1,10 +1,10 @@
-import 'package:library_store/books/book.dart';
-import 'package:library_store/books/data/graphql/delete_books/__generated__/delete_book.data.gql.dart';
-import 'package:library_store/books/data/graphql/filter_books/__generated__/filter_books.data.gql.dart';
-import 'package:library_store/books/data/graphql/get_all_book/__generated__/book_list.data.gql.dart';
-import 'package:library_store/books/data/graphql/search_books/__generated__/search_books.data.gql.dart';
-import 'package:library_store/mybooks/data/graphql/createBook/__generated__/create_book.data.gql.dart';
-import 'package:library_store/mybooks/data/graphql/getMyBooks/__generated__/get_my_books.data.gql.dart';
+import 'package:library_store/feature/books/book.dart';
+import 'package:library_store/feature/books/data/graphql/delete_books/__generated__/delete_book.data.gql.dart';
+import 'package:library_store/feature/books/data/graphql/filter_books/__generated__/filter_books.data.gql.dart';
+import 'package:library_store/feature/books/data/graphql/get_all_book/__generated__/book_list.data.gql.dart';
+import 'package:library_store/feature/books/data/graphql/search_books/__generated__/search_books.data.gql.dart';
+import 'package:library_store/feature/mybooks/data/graphql/createBook/__generated__/create_book.data.gql.dart';
+import 'package:library_store/feature/mybooks/data/graphql/getMyBooks/__generated__/get_my_books.data.gql.dart';
 
 class BookList {
   final double status;
@@ -14,8 +14,8 @@ class BookList {
   final List<Book> data;
 
   BookList({
-    required this.status,
-    required this.message,
+    this.status = 0,
+    this.message = '',
     required this.page,
     required this.total,
     required this.data,
@@ -71,15 +71,15 @@ class BookList {
     );
   }
 
-  factory BookList.removeBook(GRemoveBookData_removeBook bookData) {
-    return BookList(
-      status: bookData.status,
-      message: bookData.message,
-      page: 1,
-      total: 5,
-      data: bookData.data.map((bookData) => Book.removeBook(bookData)).toList(),
-    );
-  }
+  // factory BookList.removeBook(GRemoveBookData_removeBook bookData) {
+  //   return BookList(
+  //     status: bookData.status,
+  //     message: bookData.message,
+  //     page: 1,
+  //     total: 5,
+  //     data: bookData.data.map((bookData) => Book.removeBook(bookData)).toList(),
+  //   );
+  // }
 
   Map<String, dynamic> toJson() {
     return {
